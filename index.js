@@ -34,15 +34,33 @@ function announceWinner(isPlayerOneWinner) {
 
 function fakeLoading(playerOneDiceDots, playerTwoDiceDots) {
     return new Promise((resolve) => {
-        for (let i = 0; i <= 8; i++) {
+        for (let i = 0; i <= 6; i++) {
             setTimeout(() => {
-                playerOneDiceDots[i].innerHTML = "";
-                playerTwoDiceDots[i].innerHTML = "";
+                let playerOneRoll = randomRoll();
+                let playerTwoRoll = randomRoll();
 
-                if (i === 8) {
+                let playerOneTemplate = diceTemplate[playerOneRoll];
+                let playerTwoTemplate = diceTemplate[playerTwoRoll];
+
+                for (let j = 0; j <= 8; j++) {
+                    if (playerOneTemplate[j] === 0) {
+                        playerOneDiceDots[j].innerHTML = "";
+                    } else if (playerOneTemplate[j] === 1) {
+                        playerOneDiceDots[j].innerHTML = "<div></div>";
+                    }
+
+                    if (playerTwoTemplate[j] === 0) {
+                        playerTwoDiceDots[j].innerHTML = "";
+                    } else if (playerTwoTemplate[j] === 1) {
+                        playerTwoDiceDots[j].innerHTML = "<div></div>";
+                    }
+                }
+
+                if (i === 6) {
                     resolve();
                 }
-            }, i * 300);
+                
+            }, i * 400);
         }
     })
 }
@@ -50,23 +68,21 @@ function fakeLoading(playerOneDiceDots, playerTwoDiceDots) {
 function animateDie(playerOneDiceDots, playerTwoDiceDots, playerOneTemplate, playerTwoTemplate) {
     return new Promise((resolve) => {
         for (let i = 0; i <= 8; i++) {
-            setTimeout(() => {
-                if (playerOneTemplate[i] === 0) {
-                    playerOneDiceDots[i].innerHTML = "";
-                } else if (playerOneTemplate[i] === 1) {
-                    playerOneDiceDots[i].innerHTML = "<div></div>";
-                }
-        
-                if (playerTwoTemplate[i] === 0) {
-                    playerTwoDiceDots[i].innerHTML = "";
-                } else if (playerTwoTemplate[i] === 1) {
-                    playerTwoDiceDots[i].innerHTML = "<div></div>";
-                }
+            if (playerOneTemplate[i] === 0) {
+                playerOneDiceDots[i].innerHTML = "";
+            } else if (playerOneTemplate[i] === 1) {
+                playerOneDiceDots[i].innerHTML = "<div></div>";
+            }
+    
+            if (playerTwoTemplate[i] === 0) {
+                playerTwoDiceDots[i].innerHTML = "";
+            } else if (playerTwoTemplate[i] === 1) {
+                playerTwoDiceDots[i].innerHTML = "<div></div>";
+            }
 
-                if (i === 8) {
-                    resolve();
-                }
-            }, i * 300);
+            if (i === 8) {
+                return resolve();
+            }
         }
     });
 }
